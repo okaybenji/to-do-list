@@ -19,7 +19,7 @@
 				</tr>
 			</table><br>
 			<form ng-submit="itemAdd(toDoItem)">
-				<input type="text" ng-model="toDoItem">
+				<input type="text" ng-model="toDoItem.text">
 				<input type="submit" ng-disabled="!toDoItem || toDoList.indexOf(toDoItem)!=-1 || completedList.indexOf(toDoItem)!=-1" value="+"><!--ignore if no item specified or item already in to-do or completed lists-->
 			</form>
 
