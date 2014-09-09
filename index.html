@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+	<head lang="en">
+		<meta charset="UTF-8">
+		<title>To-Do List</title>
+		<script type="text/javascript" src="listCtrl.js"></script>
+		<link rel="stylesheet" href="styles.css">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+	</head>
+	<body>
+		<div ng-app="" id="app" align="center" ng-controller="listCtrl">
+
+				<h1>To-Do List</h1>
+				Search <input type="text" ng-model="searchList"><br><br>
+				<table>
+					<p ng-show="toDoList==''" class="label label-default">(Add some to-do items!)</p>
+					<tr ng-repeat="toDoItem in toDoList | filter:searchList">
+						<td><input type="checkbox" ng-click="itemRemove(toDoItem)"></td>
+						<td>&nbsp;{{$index + 1}}.&nbsp;</td>
+						<td>{{toDoItem}}</td>
+					</tr>
+				</table><br>
+				<form ng-submit="itemAdd(toDoItem)">
+					<input type="text" ng-model="toDoItem">
+					<input type="submit" ng-disabled="!toDoItem || toDoList.indexOf(toDoItem)!=-1 || completedList.indexOf(toDoItem)!=-1" value="+"><!--ignore if no item specified or item already in to-do or completed lists-->
+				</form>
+
+				<div id="alerts">
+					<p ng-show="!toDoItem" class="label label-default">Please tell me what you would like to do.</p>
+					<p ng-show="toDoList.indexOf(toDoItem)!=-1" class="label label-warning">This item is already on the list.</p>
+					<p ng-show="completedList.indexOf(toDoItem)!=-1" class="label label-warning">You already did that!</p>
+				</div>
+
+				<h2>Complete</h2>
+				<table>
+					<p ng-show="completedList==''" class="label label-default">(No items completed.)</p>
+					<tr ng-repeat="completedItem in completedList">
+						<td>✓ {{completedItem}}</td>
+					</tr>
+				</table>
+
+		</div>
+	</body>
+	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.23/angular.min.js"></script>
+</html>
