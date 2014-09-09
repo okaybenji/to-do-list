@@ -4,34 +4,17 @@ toDoApp.controller('listCtrl', ['$scope', '$http',
 
 function listCtrl($scope, $http) {
 
-	// USE ARRAY:
-	/*
-	//$scope.toDoList = ["Learn AngularJS","Learn Node.js","Learn Git"];
-	//$scope.completedList = ["Go to work","Shave a cat","Pee pants (not mine)"];
-
-	$scope.toDoList = [];
-	$scope.completedList = [];
-
-	$scope.itemAdd = function (item) {
-		$scope.toDoList.push(item);
-		$scope.toDoItem = "";
-	}
-
-	$scope.itemRemove = function (item) {
-		$scope.completedList.push(item);
-		$scope.toDoList.splice($scope.toDoList.indexOf(item), 1);
-	}
-	*/
-
-	// USE MONGODB:
-
 	$scope.formData = {};
+	$scope.toDoList = [];
 	$scope.completedList = [];
 
 	//retrieve existing to-dos upon landing on page
 	$http.get('/api/items')
 		.success(function(data) {
-			$scope.toDoList = data;
+			angular.forEach(data, function(value, key){
+				//console.log(key + ' ' ,value);
+				$scope.toDoList.push(value.item);
+			});
 		})
 		.error(function(data) {
 			console.log('Error: ' + data);
