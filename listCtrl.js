@@ -4,15 +4,14 @@ toDoApp.controller('listCtrl', ['$scope', '$http',
 
 	function listCtrl($scope, $http) {
 
-		//$scope.formData = {};
 		$scope.completedList = [];
 
-		//loop through mongodb array and push the to-do strings into client array (to-do list)
+		//loop through mongodb array and push the to-do strings and identifiers into client array (to-do list)
 		function loadList(data) {
 			$scope.toDoList = [];
 			angular.forEach(data, function(value, key){
-				//console.log(key + ' ' ,value);
-				$scope.toDoList.push(value.item);
+				//console.log(key,value.item,value._id);
+				$scope.toDoList.push({item:value.item, id:value._id});
 			});
 		}
 
@@ -32,7 +31,7 @@ toDoApp.controller('listCtrl', ['$scope', '$http',
 		$scope.itemAdd = function() {
 			var item = {};
 			item.text = $scope.toDoItem;
-			console.log(item.text);
+			//console.log(item.text);
 
 			$http.post('/api/items', item)
 				.success(function(data) {
@@ -41,19 +40,22 @@ toDoApp.controller('listCtrl', ['$scope', '$http',
 				.error(function(data) {
 					logError(data);
 				});
+
+				$scope.toDoItem = ""; //clear input box
 		};
 
-		$scope.itemRemove = function(id) {
+		$scope.itemRemove = function(toDoItem) {
 
-			$scope.completedList.push(id); //display completed items for this session
+			$scope.completedList.push(toDoItem.item); //display completed items for this session
 
-			$http.delete('/api/items/' + id)
+			$http.delete('/api/items/' + toDoItem.id)
 				.success(function(data) {
 					loadList(data);
 				})
 				.error(function(data) {
 					logError(data);
 				});
+
 		};
 
 	}
