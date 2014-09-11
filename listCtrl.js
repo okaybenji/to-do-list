@@ -19,6 +19,16 @@ toDoApp.controller('listCtrl', ['$scope', '$http',
 			console.log('Error: ' + data);
 		}
 
+		//allow searching for new item in to-do list to prevent user from adding same thing twice
+		function objectIndexOf(array, searchTerm, property) {
+			for(var i=0; i<array.length; i++) {
+				if (array[i][property] === searchTerm) {
+					return i;
+				}
+			}
+			return -1;
+		}
+
 		//retrieve existing to-dos upon landing on page
 		$http.get('/api/items')
 			.success(function(data) {
@@ -28,9 +38,9 @@ toDoApp.controller('listCtrl', ['$scope', '$http',
 				logError(data);
 			});
 
-		$scope.itemAdd = function() {
+		$scope.itemAdd = function(newItem) {
 			var item = {};
-			item.text = $scope.toDoItem;
+			item.text = newItem;
 			//console.log(item.text);
 
 			$http.post('/api/items', item)
@@ -41,7 +51,7 @@ toDoApp.controller('listCtrl', ['$scope', '$http',
 					logError(data);
 				});
 
-				$scope.toDoItem = ""; //clear input box
+				$scope.newItem = ""; //clear input box
 		};
 
 		$scope.itemRemove = function(toDoItem) {

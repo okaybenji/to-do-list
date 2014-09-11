@@ -18,15 +18,15 @@
 					<td>{{toDoItem.item}}</td>
 				</tr>
 			</table><br>
-			<form ng-submit="itemAdd(toDoItem)">
-				<input type="text" ng-model="toDoItem" placeholder="What would you like to do?">
-				<input type="submit" ng-disabled="!toDoItem || toDoList.indexOf(toDoItem)!=-1 || completedList.indexOf(toDoItem.item)!=-1" value="+"><!--ignore if no item specified or item already in to-do or completed lists-->
+			<form ng-submit="itemAdd(newItem)">
+				<input type="text" ng-model="newItem" placeholder="What would you like to do?">
+				<input type="submit" ng-disabled="!newItem || objectIndexOf(toDoList, newItem, item)!=-1 || completedList.indexOf(newItem)!=-1" value="+"><!--ignore if no item specified or item already in to-do or completed lists-->
 			</form>
 
 			<div id="alerts">
 				<!--p ng-show="!toDoItem" class="label label-default">Please tell me what you would like to do.</p-->
-				<p ng-show="toDoList.indexOf(toDoItem.item)!=-1" class="label label-warning">This item is already on the list.</p>
-				<p ng-show="completedList.indexOf(toDoItem)!=-1" class="label label-warning">You already did that!</p>
+				<p ng-show="objectIndexOf(toDoList, newItem, item)!=-1" class="label label-warning">This item is already on the list.</p>
+				<p ng-show="completedList.indexOf(newItem)!=-1" class="label label-warning">You already did that!</p>
 			</div>
 
 			<h2>Complete</h2>
