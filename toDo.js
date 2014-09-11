@@ -31,7 +31,7 @@ function createItem(req, res) {
 	dbItem.create({
 		item : req.body.text,
 		done : false
-	}, function(err, todo) {
+	}, function(err) {
 		if (err) {
 			res.send(err);
 		}
@@ -42,7 +42,7 @@ function createItem(req, res) {
 function deleteItem(req, res) {
 	dbItem.remove({
 		_id : req.params.item_id
-	}, function(err, todo) {
+	}, function(err) {
 		if (err) {
 			res.send(err);
 		}
