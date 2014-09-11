@@ -25,16 +25,9 @@ function getItems(req, res) {
 		}
 		res.json(items); //return items as JSON
 	});
-};
+}
 
-app.get('/api/items', function(req, res) {
-	getItems(req, res);
-});
-
-//create item
-app.post('/api/items', function(req, res) {
-	//console.log(req.body.text);
-	//dbItem.create({item : req.body.text});
+function createItem(req, res) {
 	dbItem.create({
 		item : req.body.text,
 		done : false
@@ -44,10 +37,9 @@ app.post('/api/items', function(req, res) {
 		}
 		getItems(req, res);
 	});
-});
+}
 
-//delete item
-app.delete('/api/items/:item_id', function(req, res) {
+function deleteItem(req, res) {
 	dbItem.remove({
 		_id : req.params.item_id
 	}, function(err, todo) {
@@ -56,7 +48,16 @@ app.delete('/api/items/:item_id', function(req, res) {
 		}
 		getItems(req, res);
 	});
-});
+}
+
+//get items on get to /api/items
+app.get('/api/items', getItems);
+
+//create item on post to /api/items
+app.post('/api/items', createItem);
+
+//delete item on delete to /api/items/[_id]
+app.delete('/api/items/:item_id', deleteItem);
 
 var server = app.listen(80, function() {
 	console.log("Listening on port %d", server.address().port);
