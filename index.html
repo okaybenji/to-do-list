@@ -20,12 +20,11 @@
 			</table><br>
 			<form ng-submit="itemAdd(newItem)">
 				<input type="text" ng-model="newItem" placeholder="What would you like to do?">
-				<input type="submit" ng-disabled="!newItem || indexOfObject(toDoList, item, newItem)!=-1 || completedList.indexOf(newItem)!=-1" value="+"><!--ignore if no item specified or item already in to-do or completed lists>
-				<!--input type="submit" ng-disabled="!newItem  || completedList.indexOf(newItem)!=-1" value="+"><!--ignore if no item specified or item already in completed lists-->
+				<input type="submit" ng-disabled="!newItem || inList()!=0 || completedList.indexOf(newItem)!=-1" value="+"><!--ignore if no item specified or item already in to-do or completed lists-->
 			</form>
 
 			<div id="alerts">
-				<p ng-show="indexOfObject(toDoList, item, newItem)!=-1" class="label label-warning">This item is already on the list.</p>
+				<p ng-show="inList()!=0" class="label label-warning">This item is already on the list.</p>
 				<p ng-show="completedList.indexOf(newItem)!=-1" class="label label-warning">You already did that!</p>
 			</div>
 
@@ -38,7 +37,7 @@
 			</table>
 		</div>
 	</body>
-	 <!--script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script-->
 	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.23/angular.min.js"></script>
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 	<script type="text/javascript" src="listCtrl.js"></script>
 </html>

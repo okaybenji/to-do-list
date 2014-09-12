@@ -5,15 +5,17 @@ toDoApp.controller('listCtrl', ['$scope', '$http',
 	function listCtrl($scope, $http) {
 
 		$scope.completedList = [];
-		$scope.toDoList = [];
-		$scope.newItem = "";
 
-		//loop through mongodb array and push the to-do strings and identifiers into client array (to-do list)
+		//loop through mongodb array and push the to-do items into the to-do list;
+		//this will reload entire list each call -- not the best for performance, but keeps it simple to code [:
 		function loadList(data) {
 			$scope.toDoList = [];
-			angular.forEach(data, function(value, key){
-				$scope.toDoList.push({item:value.item, id:value._id});
-			});
+			angular.forEach(data, pushItem);
+		}
+
+		//push to-do item (string and identifiers) into client array (to-do list)
+		function pushItem(value, key) {
+			$scope.toDoList.push({item:value.item, id:value._id});
 		}
 
 		function logError(data) {
@@ -31,24 +33,17 @@ toDoApp.controller('listCtrl', ['$scope', '$http',
 			$scope.newItem = ""; //clear input box
 		};
 
+		//remove item on demand
 		$scope.itemRemove = function(toDoItem) {
-			$scope.completedList.push(toDoItem.item); //display completed items for this session (from completedList array)
+			$scope.completedList.push(toDoItem.item); //add to array of completed items for this session
 			$http.delete('/api/items/' + toDoItem.id).success(loadList).error(logError);
 		};
 
 		//allow searching for new item in to-do list to prevent user from adding same thing twice
-		$scope.indexOfObject = function(array, property, value) {
-
-			if(array.length) {
-				for(var i=0; i<array.length; i++) {
-					//console.log(array[i][property]);
-					if (array[i][property] == value) {
-						return i;
-						console.log(i);
-					}
-				}
+		$scope.inList = function() {
+			if ($scope.toDoList) {
+				return $.grep($scope.toDoList, function(e) {return e.item == $scope.newItem});
 			}
-			return -1;
 		}
 
 	}

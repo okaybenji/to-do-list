@@ -1,7 +1,7 @@
 {
   "name": "toDoApp",
-  "description": "practice angular app",
-  "version": "0.0.1",
+  "description": "practice MEAN app",
+  "version": "0.0.2",
   "private": true,
   "dependencies": {
     "express": "4.8.8",
