@@ -20,11 +20,11 @@
 			</table><br>
 			<form ng-submit="itemAdd(newItem)">
 				<input type="text" ng-model="newItem" placeholder="What would you like to do?">
-				<input type="submit" ng-disabled="!newItem || inList()!=0 || completedList.indexOf(newItem)!=-1" value="+"><!--ignore if no item specified or item already in to-do or completed lists-->
+				<input type="submit" ng-disabled="!newItem || inList(toDoList, newItem)!=0 || completedList.indexOf(newItem)!=-1" value="+"><!--ignore if no item specified or item already in to-do or completed lists-->
 			</form>
 
 			<div id="alerts">
-				<p ng-show="inList()!=0" class="label label-warning">This item is already on the list.</p>
+				<p ng-show="inList(toDoList, newItem)!=0" class="label label-warning">This item is already on the list.</p>
 				<p ng-show="completedList.indexOf(newItem)!=-1" class="label label-warning">You already did that!</p>
 			</div>
 

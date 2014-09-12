@@ -40,9 +40,9 @@ toDoApp.controller('listCtrl', ['$scope', '$http',
 		};
 
 		//allow searching for new item in to-do list to prevent user from adding same thing twice
-		$scope.inList = function() {
-			if ($scope.toDoList) {
-				return $.grep($scope.toDoList, function(e) {return e.item == $scope.newItem});
+		$scope.inList = function(list, value) {
+			if (list) {
+				return $.grep(list, function(e) {return e.item == value});
 			}
 		}
 
